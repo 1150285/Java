@@ -140,8 +140,8 @@ public class Main {
        	headerMap.put("login.password", Arrays.asList(new Object [] { "ofbiz" }));
        	
        	JsonObject value = Json.createObjectBuilder()
-       	     .add("internalName", "internal teste1")
-       	     .add("productName", "teste1")
+       	     .add("internalName", "internal teste2")
+       	     .add("productName", "teste2")
        	     .add("productTypeId", "FINISHED_GOOD")
        	     .build();
 
@@ -213,7 +213,7 @@ public class Main {
 		if (productId!=null) {
 			testGetProduct(productId);
 			// Delete the previous product - unavailable operation
-			testUpdateProduct(productId, "Update Internal Name Test", "Update Product Name Test");
+			testUpdateProduct(productId, "Update Internal Name Test2", "Update Product Name Test");
 		}
 	}
 }

@@ -49,7 +49,8 @@ import org.ofbiz.entity.DelegatorFactory;
 import org.ofbiz.entity.GenericDelegator;
 import org.ofbiz.entity.GenericEntityException;
 import org.ofbiz.entity.GenericValue;
-
+import org.ofbiz.entity.condition.EntityCondition;
+import org.ofbiz.entity.condition.EntityOperator;
 import org.ofbiz.entity.util.Converters.GenericValueToJSON;
 import org.ofbiz.service.GenericServiceException;
 import org.ofbiz.service.LocalDispatcher;
@@ -168,9 +169,15 @@ public class ProductResource {
 		GenericDelegator delegator = (GenericDelegator) DelegatorFactory.getDelegator("default");
 		LocalDispatcher dispatcher = org.ofbiz.service.ServiceDispatcher.getLocalDispatcher("default", delegator);
 
-		Map<String, String> paramMap = UtilMisc.toMap("internalName", jsonObj.getString("internalName"), "productName",
-				jsonObj.getString("productName"), "productTypeId", jsonObj.getString("productTypeId"), "login.username",
-				username, "login.password", password);
+		Map<String, String> paramMap = UtilMisc.toMap(
+				"internalName", jsonObj.getString("internalName"), 
+				"productName", jsonObj.getString("productName"), 
+				"productTypeId", jsonObj.getString("productTypeId"), 
+				"brandName",jsonObj.getString("brandName"), 				
+				"description",jsonObj.getString("description"), 
+				"piecesIncluded",Long.valueOf(jsonObj.getString("piecesIncluded")), 	
+				"login.username", username, 
+				"login.password", password);
 
 		Map<String, Object> result = FastMap.newInstance();
 		try {
@@ -261,6 +268,85 @@ public class ProductResource {
 	}
 
 	/**
+	 * This method returns a product given its internal name
+	 * 
+	 * @param productId
+	 * @return
+	 */
+	@SuppressWarnings("deprecation")
+	@GET
+	@Produces("application/json")
+	@Path("/internalname/{intname}")
+	public Response getProductByInternalName(@PathParam("intname") String intname) {
+		
+		String username = null;
+		String password = null;
+
+		try {
+			username = httpRequest.getHeader("login.username");
+			password = httpRequest.getHeader("login.password");
+		} catch (NullPointerException e) {
+			return Response.serverError().entity("Problem reading http header(s): login.username or login.password")
+					.build();
+		}
+
+		if (username == null || password == null) {
+			return Response.serverError().entity("Problem reading http header(s): login.username or login.password")
+					.build();
+		}
+
+		GenericDelegator delegator = (GenericDelegator) DelegatorFactory.getDelegator("default");
+		//GenericValue product = null;
+		List<GenericValue> productList = null;
+
+		try {
+			//productList = delegator.findByAnd("Product", UtilMisc.toMap("internalName", intname), false, false);
+			productList = delegator.findList("Product", EntityCondition.makeCondition("internalName",EntityOperator.EQUALS, intname), null, null, null, false);
+		} catch (GenericEntityException e) {
+			return Response.serverError().entity(e.toString()).build();
+		}
+
+	
+		if (productList != null) {
+			
+			String response = Util.convertListGenericValueToJSON(productList);
+			
+			if (response == null) {
+				return Response.serverError().entity("Erro na conversao do JSON!").build();
+			}
+
+			return Response.ok(response).type("application/json").build();
+		}
+
+		
+		
+		
+		
+		/*	if (productList != null) {
+
+			JsonObject object = null;
+
+			JSON json = null;
+
+			try {
+				json = new GenericValueToJSON().convert(productList);
+			} catch (ConversionException e) {
+				return Response.serverError().entity("Problem converting the product to json!").build();
+			}
+
+			JsonReader jsonReader = Json.createReader(new StringReader(json.toString()));
+			object = jsonReader.readObject();
+			jsonReader.close();
+
+			return Response.ok(object.toString()).type("application/json").build();
+		}*/
+
+		// shouldn't ever get here ... should we?
+		throw new RuntimeException("Invalid ");
+	}
+	
+	
+	/**
 	 * This method returns a product given its id.
 	 * 
 	 * @param productId
@@ -335,9 +421,16 @@ public class ProductResource {
 		GenericDelegator delegator = (GenericDelegator) DelegatorFactory.getDelegator("default");
 		LocalDispatcher dispatcher = org.ofbiz.service.ServiceDispatcher.getLocalDispatcher("default", delegator);
 
-		Map<String, String> paramMap = UtilMisc.toMap("productId", productId, "internalName",
-				jsonObj.getString("internalName"), "productName", jsonObj.getString("productName"), "productTypeId",
-				jsonObj.getString("productTypeId"), "login.username", username, "login.password", password);
+		Map<String, String> paramMap = UtilMisc.toMap(
+				"productId", productId, 
+				"internalName",jsonObj.getString("internalName"), 
+				"productName", jsonObj.getString("productName"), 
+				"productTypeId",jsonObj.getString("productTypeId"), 
+				"brandName",jsonObj.getString("brandName"), 				
+				"description",jsonObj.getString("description"), 	
+				"piecesIncluded",Long.valueOf(jsonObj.getString("piecesIncluded")), 						
+				"login.username", username, 
+				"login.password", password);
 
 		Map<String, Object> result = FastMap.newInstance();
 		try {

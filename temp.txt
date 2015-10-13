@@ -1,0 +1,17 @@
+http://localhost:8080/restcomponent/product/10017
+
+
+login.username: admin
+login.password: ofbiz
+
+{
+"internalName":"bbb",
+"productName":"bbb",
+"productTypeId":"FINISHED_GOOD",
+"brandName":"abbbaaaaa",
+"description":"aaabbbaaa",
+"piecesIncluded":"1221"
+}
+
+
+detalhe da entity productsem: Entity Engine Tools - Entity Data Maintenance
