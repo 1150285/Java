@@ -73,5 +73,32 @@ public class Util {
     	
     	return object.toString();
 	}
+	synchronized static String getRecipe(String recipeId) {
+    	GenericValue recipe = null;
+    	JsonObject object=null;
+
+    	GenericDelegator delegator = (GenericDelegator) DelegatorFactory.getDelegator("default");
+
+    	try {
+    	       recipe = delegator.findOne("Recipe",
+    	                          UtilMisc.toMap("recipeId", recipeId), false);
+    	       
+   			JSON json=null;
+
+   			json = new GenericValueToJSON().convert(recipe);
+   			
+   			JsonReader jsonReader = Json.createReader(new StringReader(json.toString()));
+   			object = jsonReader.readObject();
+   			jsonReader.close();
+    	}
+    	catch (GenericEntityException e) {
+			return null;
+    	}
+    	catch (ConversionException e) {
+   				return null;
+   		}
+    	
+    	return object.toString();
+	}
 }
 

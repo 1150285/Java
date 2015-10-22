@@ -29,6 +29,7 @@ public class OFBizRESTApplication extends Application {
       Set<Class<?>> classes = new HashSet<Class<?>>();
       classes.add(PingResource.class);
       classes.add(ProductResource.class);
+      classes.add(RecipeResource.class);
       return classes;
   }
 }

@@ -10,5 +10,28 @@
             Dummy service to prevent empty files and syntax error - Remove when the 1st real service will be added here 
         </description>
     </service> 
+  
+<service name="createRecipe" engine="java"
+location="MyServices" invoke="createRecipe">
+<description>
+A service to create new recipes in the helloworld component.
+</description>
+<attribute name="recipeName" type="String" mode="IN" optional="false"/>
+<attribute name="notes" type="String" mode="IN" optional="false"/>
+<attribute name="recipeTypeId" type="String" mode="IN" optional="false"/>
+<attribute name="recipeId" type="String" mode="OUT" optional="false"/>
+</service>    
+
+<service name="updateRecipe" engine="java"
+location="MyServices" invoke="updateRecipe">
+<description>
+A service to update recipes in the helloworld component.
+</description>
+<attribute name="recipeName" type="String" mode="IN" optional="false"/>
+<attribute name="notes" type="String" mode="IN" optional="false"/>
+<attribute name="recipeTypeId" type="String" mode="IN" optional="false"/>
+<attribute name="recipeId" type="String" mode="IN" optional="false"/>
+<attribute name="recipeId" type="String" mode="OUT" optional="false"/>
+</service> 
     
 </services>

@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entity-engine-xml>
-
+<RecipeType recipeTypeId="dogbiscuits" description = "dogbiscuits" />
+<RecipeType recipeTypeId="bread" description = "bread" />
+<Recipe recipeId="r001" recipeName="Moms Doggie Delights" recipeTypeId="dogbiscuits" notes="This one goes way back."/>
+<Recipe recipeId="r002" recipeName="Dont try this one at home!" recipeTypeId="bread" notes="Same ole stuff but you gotta have it."/>
+<Recipe recipeId="r003" recipeName="Going Nuts, Nut Bread For..." recipeTypeId="bread" notes="This one goes way back (too)."/>
+<Recipe recipeId="r004" recipeName="Moms Goes Green" recipeTypeId="bread" notes="Green, Healthy Bread. Has spinach to boot!"/>
+<Ingredient ingredientId="10001" ingredientName="bread A" ingredientType="bread"/>
+<Ingredient ingredientId="10010" ingredientName="bread B" ingredientType="bread" packagingUomId="VLIQ_qt"/>
+<Ingredient ingredientId="10005" ingredientName="bread C" ingredientType="bread" packagingUomId="VLIQ_qt"/>
+<Ingredient ingredientId="10002" ingredientName="bread D" ingredientType="bread" packagingUomId="VLIQ_tsp"/>
+<RecipeIngredient recipeId="r001" recipeSeqNo="001" ingredientId="10001" amount="1" fromDate="2010-01-01 00:00:00.000"/>
+<RecipeIngredient recipeId="r001" recipeSeqNo="002" ingredientId="10010" amountUomId="VLIQ_qt" fromDate="2010-01-01 00:00:00.000"/>
+<RecipeIngredient recipeId="r001" recipeSeqNo="003" ingredientId="10005" amountUomId="VLIQ_qt" fromDate="2010-01-01 00:00:00.000"/>
+<RecipeIngredient recipeId="r001" recipeSeqNo="004" ingredientId="10002" amountUomId="VLIQ_tsp" fromDate="2010-01-01 00:00:00.000"/>
 </entity-engine-xml>
