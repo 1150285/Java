@@ -68,7 +68,7 @@ public class Main {
 	/**
 	 * This method demonstrates how to use rest to get information about a product
 	 * To get information about the product entity follow the url:
-	 * https://localhost:8443/webtools/control/ArtifactInfo?name=Product&type=entity
+	 * https://localhost:8443/webtools/control/ArtifactInfo?name=Product&type=entity;
 	 * Note: see the "restcomponent" for details on how the rest service is implemented on the server
 	 */
 	public static void testGetProduct(String productId) {

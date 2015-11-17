@@ -1,42 +1,150 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-
-<project name="OFBiz-Rest-Client-Demo Build" default="deploy">
-
-	<property name = "userpath" location="C:\Users\Administrator\Documents\ODSOFT\temp"/>
-	<property name = "buildclasses" value="build/classes"/>
-	<property name = "source" value="src"/>
-	<property name = "dist.dir" value="dist"/>
-
-		
-	<target name="init">
-		        <mkdir dir="${buildclasses}"/>
-		        <mkdir dir="${dist.dir}"/>
-	</target>
+<?xml version="1.0" ?>
+<project name="ofbiz-demo" default="deploy">
 	
+	<property name= "userpath" location="C:\Users\Administrator\Documents\ODSOFT\temp"/>
+	<property name= "testsource" value="src-tests" />
+	<property name= "source" value="src" />
+	<property name= "dist.dir" value="dist"/>
+
+	<property name="build.dir" value="target" />
+	<property name="build.classes" value="${build.dir}/classes" />
+	<property name="test.classes" value="${build.dir}/test-classes" />
+	<property name="test.reports" value="${build.dir}/test-reports" />
+	<property name="lib" value="./lib" />
+	
+	<property name="instrumented.dir" value="${build.dir}/instrumented-classes" />
+	<property name="report.xml.dir" value="${build.dir}/test-results" />
+	<property name="coverage.xml.dir" value="${build.dir}/test-results" />
+	
+	<target name="init">
+		<mkdir dir="${build.classes}" />
+        <mkdir dir="${dist.dir}"/>
+		<mkdir dir="${test.classes}" />
+		<mkdir dir="${test.reports}" />
+		<mkdir dir="${instrumented.dir}" />
+		<mkdir dir="${report.xml.dir}" />
+	</target>	
+	
+	<path id="compile.classpath">
+		<fileset dir="${lib}">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+	
+
 	<target name="compile" depends="init">
-        <javac 	srcdir="${source}"
-				destdir="${buildclasses}">
-			<include name="/lib/*.jar"/>
+        <javac 	includejavaruntime="true" 
+				includeantruntime="false"
+				srcdir="${source}"
+				destdir="${dist.dir}"
+				debug="yes">
+			<classpath refid="compile.classpath"/>
         </javac>
     </target>
-    
-	<target name="doc" depends="init">
+	
+	<!--target name="doc" depends="init">
         <javadoc	destdir="${buildclasses}"
 					sourcepath="${source}"
 					packagenames="*.*"/>
-    </target>
+    </target-->
 
-	<target name="package" depends="compile,doc">
-        <jar	destfile="dist/project.jar"
-				basedir="build/classes"/>
-    </target>
-		
+	<!--target name="package" depends="compile,doc"-->
+	<target name="package" depends="compile">
+		<jar 	destfile="${dist.dir}/project.jar" 
+				basedir="${build.classes}">
+		</jar>
+	</target>
+
+	
 	<target name="deploy" depends="package">
 		<copy todir="${userpath}">
         <fileset dir="${dist.dir}"/>
 		</copy>
     </target>
+	
 
+	<path id="compiletest.classpath">
+		<pathelement location="${build.classes}" />
+		<pathelement location="${test.classes}" />
+		<fileset dir="${basedir}/tools/junit/">
+			<include name="**/junit*.jar" />
+		</fileset>
+		<pathelement location="${lib}"/>
+	</path>
+	
+		
+	<path id="test.classpath">
+		<pathelement location="${build.classes}" />
+		<pathelement location="${test.classes}" />
+		<fileset dir="${basedir}/tools/junit">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+		
+	<target name="compile-test" depends="package">
+		<javac 	includejavaruntime="true" 
+				includeantruntime="false" 
+				srcdir="${testsource}" 
+				destdir="${test.classes}" 
+				debug="true">
+			<classpath refid="compiletest.classpath"/>
+		</javac>
+	</target>
+		
+	<target name="test" depends="compile-test">
+		<junit printsummary="yes" haltonfailure="no" failureproperty="failed">
+			<classpath refid="test.classpath" />
+			<formatter type="xml" />			
+			<batchtest fork="yes" todir="${test.reports}">
+				<fileset dir="${testsource}">
+					<include name="**/*Test*.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+		<fail message="TEST FAILURE" if="failed"/>
+	</target>
+	
+	<path id="cobertura.classpath">
+		<fileset dir="${basedir}/tools/cobertura">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+	
+	<taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
+	<target name="instrument" depends="init,compile" >
+		<delete file="cobertura.ser" /> 
+		<delete dir="${instrumented.dir}" />
+		<cobertura-instrument todir="${instrumented.dir}">
+			<fileset dir="${build.classes}">
+				<include name="**/*.class" />
+			</fileset>
+		</cobertura-instrument>
+	</target>
+
+	<target name="test-coverage" depends="instrument, compile-test">
+		<junit fork="yes" dir="${basedir}" haltonfailure="no" >
+			<classpath location="${instrumented.dir}" />
+			<classpath refid="cobertura.classpath" />
+			<classpath location="${test.classes}" />
+			<classpath>
+				<fileset dir="${basedir}/lib">
+					<include name="*.jar"/>
+				</fileset>
+			</classpath>
+			<formatter type="xml" />
+			<test name="${testcase}" todir="${reports.xml.dir}" if="testcase" />
+			<batchtest todir="${report.xml.dir}" unless="testcase">
+				<fileset dir="${testsource}">
+					<include name="**/*Test.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
+	
+	<target name="coverage-report" depends="test-coverage">
+		<cobertura-report	srcdir="${source}" 
+							destdir="${coverage.xml.dir}" 
+							format="xml" />
+	</target>
 	
 </project>
