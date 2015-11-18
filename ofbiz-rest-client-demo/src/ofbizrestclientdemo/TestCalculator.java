@@ -22,7 +22,7 @@ public class TestCalculator {
 	public void testMul() {
 		Calculator calculator = new Calculator();
 		double result = calculator.mul(5, 3);
-		assertEquals(15, result, 0);
+	 	assertEquals(15, result, 0);
 	}
 	@Test
 	public void testDiv() {

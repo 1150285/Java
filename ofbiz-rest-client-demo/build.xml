@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <project name="ofbiz-demo" default="deploy">
-		
+	
 	<property name= "userpath" location="C:\Users\Administrator\Documents\ODSOFT\temp"/>
 	<property name= "testsource" value="src" />
 	<property name= "source" value="src" />
