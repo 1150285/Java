@@ -1,6 +1,7 @@
 <?xml version="1.0" ?>
-<project name="ofbiz-demo" default="deploy">
-	
+<!--project name="ofbiz-demo" default="deploy"-->
+<project name="ofbiz-demo" default="coverage-report">
+		
 	<property name= "userpath" location="C:\Users\Administrator\Documents\ODSOFT\temp"/>
 	<property name= "testsource" value="src-tests" />
 	<property name= "source" value="src" />
@@ -81,7 +82,8 @@
 		</fileset>
 	</path>
 		
-	<target name="compile-test" depends="package">
+	<!--target name="compile-test" depends="package"-->
+	<target name="compile-test" depends="deploy">
 		<javac 	includejavaruntime="true" 
 				includeantruntime="false" 
 				srcdir="${testsource}" 
@@ -111,7 +113,9 @@
 	</path>
 	
 	<taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
-	<target name="instrument" depends="init,compile" >
+	
+	<!--target name="instrument" depends="init,compile" -->
+	<target name="instrument" depends="test" >
 		<delete file="cobertura.ser" /> 
 		<delete dir="${instrumented.dir}" />
 		<cobertura-instrument todir="${instrumented.dir}">
@@ -121,7 +125,8 @@
 		</cobertura-instrument>
 	</target>
 
-	<target name="test-coverage" depends="instrument, compile-test">
+	<!--target name="test-coverage" depends="instrument, compile-test"-->
+	<target name="test-coverage" depends="instrument">
 		<junit fork="yes" dir="${basedir}" haltonfailure="no" >
 			<classpath location="${instrumented.dir}" />
 			<classpath refid="cobertura.classpath" />
