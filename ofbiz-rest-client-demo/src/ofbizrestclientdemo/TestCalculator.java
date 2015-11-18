@@ -24,10 +24,10 @@ public class TestCalculator {
 		double result = calculator.mul(5, 3);
 		assertEquals(15, result, 0);
 	}
-	/*@Test
+	@Test
 	public void testDiv() {
 		Calculator calculator = new Calculator();
 		double result = calculator.div(60, 10);
 		assertEquals(6, result, 0);
-	}*/
+	}
 }
