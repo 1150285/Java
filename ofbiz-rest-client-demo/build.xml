@@ -138,7 +138,7 @@
 			<test name="${testcase}" todir="${reports.xml.dir}" if="testcase" />
 			<batchtest todir="${report.xml.dir}" unless="testcase">
 				<fileset dir="${testsource}">
-					<include name="**/*Test.java" />
+					<include name="**/*Test*.java" />
 				</fileset>
 			</batchtest>
 		</junit>
