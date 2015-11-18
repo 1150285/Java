@@ -3,7 +3,7 @@
 <project name="ofbiz-demo" default="coverage-report">
 		
 	<property name= "userpath" location="C:\Users\Administrator\Documents\ODSOFT\temp"/>
-	<property name= "testsource" value="src-tests" />
+	<property name= "testsource" value="src" />
 	<property name= "source" value="src" />
 	<property name= "dist.dir" value="dist"/>
 
@@ -39,6 +39,7 @@
 				srcdir="${source}"
 				destdir="${dist.dir}"
 				debug="yes">
+        	<exclude name="**/*Test*.java"/>
 			<classpath refid="compile.classpath"/>
         </javac>
     </target>
@@ -89,6 +90,7 @@
 				srcdir="${testsource}" 
 				destdir="${test.classes}" 
 				debug="true">
+			<include name="**/*Test*.java"/>
 			<classpath refid="compiletest.classpath"/>
 		</javac>
 	</target>
