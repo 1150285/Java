@@ -36,8 +36,8 @@
         <javac 	includejavaruntime="true" 
 				includeantruntime="false"
 				srcdir="${source}"
-				destdir="${dist.dir}"
-				debug="yes">
+				destdir="${build.classes}"
+				debug="true">
         	<exclude name="**/*Test*.java"/>
 			<classpath refid="compile.classpath"/>
         </javac>
@@ -88,8 +88,9 @@
 				srcdir="${testsource}" 
 				destdir="${test.classes}" 
 				debug="true">
+			<exclude name="src/Calculator.java"/>
 			<include name="**/*Test*.java"/>
-			<classpath refid="compiletest.classpath"/>
+ 			<classpath refid="compiletest.classpath"/>
 		</javac>
 	</target>
 		
@@ -120,11 +121,12 @@
 		<cobertura-instrument todir="${instrumented.dir}">
 			<fileset dir="${build.classes}">
 				<include name="**/*.class" />
+				<exclude name="**/*Test*.class" />
 			</fileset>
 		</cobertura-instrument>
 	</target>
 
-	<target name="test-coverage" depends="instrument, compile-test">
+	<target name="test-coverage" depends="instrument">
 		<junit fork="yes" dir="${basedir}" haltonfailure="no" >
 			<classpath location="${instrumented.dir}" />
 			<classpath refid="cobertura.classpath" />
