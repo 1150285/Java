@@ -30,6 +30,7 @@ public class OFBizRESTApplication extends Application {
       classes.add(PingResource.class);
       classes.add(ProductResource.class);
       classes.add(RecipeResource.class);
+      classes.add(NoteResource.class);
       return classes;
   }
 }

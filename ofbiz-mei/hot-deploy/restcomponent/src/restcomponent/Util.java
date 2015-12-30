@@ -100,5 +100,45 @@ public class Util {
     	
     	return object.toString();
 	}
+
+
+
+
+	
+	/* Memorix 
+	 * ********************************************************************
+	 */
+	
+	
+	synchronized static String getNote(String noteId) {
+    	GenericValue note = null;
+    	JsonObject object=null;
+
+    	GenericDelegator delegator = (GenericDelegator) DelegatorFactory.getDelegator("default");
+
+    	try {
+    	       note = delegator.findOne("Note",
+    	                          UtilMisc.toMap("noteId", noteId), false);
+    	       
+   			JSON json=null;
+
+   			json = new GenericValueToJSON().convert(note);
+   			
+   			JsonReader jsonReader = Json.createReader(new StringReader(json.toString()));
+   			object = jsonReader.readObject();
+   			jsonReader.close();
+    	}
+    	catch (GenericEntityException e) {
+			return null;
+    	}
+    	catch (ConversionException e) {
+   				return null;
+   		}
+    	
+    	return object.toString();
+	}
+
+	
+
 }
 
