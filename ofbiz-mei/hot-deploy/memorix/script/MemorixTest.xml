@@ -36,19 +36,20 @@ under the License.
 
         <!-- Confirm the service output parameters -->
         <assert>
-            <if-compare-field field="serviceResult.noteId" operator="equals" to-field="serviceCtx.noteId"/>
+            <!-- if-compare-field field="serviceResult.noteId" operator="equals" to-field="serviceCtx.noteId"/>
             <if-compare-field field="serviceResult.note" operator="equals" to-field="serviceCtx.note"/>
-             <if-compare-field field="serviceResult.loginName" operator="equals" to-field="serviceCtx.loginName"/>
+             <if-compare-field field="serviceResult.loginName" operator="equals" to-field="serviceCtx.loginName"/-->
+        	<if-compare-field field="serviceResult.noteId" operator="not-equals" to-field="serviceCtx.noteId"/>
         </assert>
 
-        <!-- Confirm the database changes-->
+        <!-- Confirm the database changes>
         <entity-one value-field="note" entity-name="Note">
             <field-map field-name="noteId" from-field="serviceCtx.noteId"/>
             <field-map field-name="note" from-field="serviceCtx.note"/>
             <field-map field-name="loginName" from-field="serviceCtx.loginName"/>
         </entity-one>
         <assert><not><if-empty field="note"/></not></assert>
-        <check-errors/>
+        <check-errors/-->
     </simple-method>
     
    
