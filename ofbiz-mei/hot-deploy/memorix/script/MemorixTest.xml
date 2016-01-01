@@ -39,7 +39,7 @@ under the License.
             <!-- if-compare-field field="serviceResult.noteId" operator="equals" to-field="serviceCtx.noteId"/>
             <if-compare-field field="serviceResult.note" operator="equals" to-field="serviceCtx.note"/>
              <if-compare-field field="serviceResult.loginName" operator="equals" to-field="serviceCtx.loginName"/-->
-        	<if-compare-field field="serviceResult.noteId" operator="not-equals" to-field="serviceCtx.noteId"/>
+        	<if-compare-field field="serviceResult.noteId" operator="equals" to-field="serviceCtx.noteId"/>
         </assert>
 
         <!-- Confirm the database changes>
