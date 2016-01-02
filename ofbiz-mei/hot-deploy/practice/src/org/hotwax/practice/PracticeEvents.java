@@ -1,4 +1,4 @@
-package org.hotwax.practice;
+package practice.src.org.hotwax.practice;
 
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
