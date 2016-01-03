@@ -25,7 +25,7 @@ under the License.
         <entity-one entity-name="UserLogin" value-field="serviceCtx.userLogin">
             <field-map field-name="userLoginId" value="admin"/>
         </entity-one>
-        <!-- set field="serviceCtx.noteId" value="999"/-->
+        <set field="serviceCtx.noteId" value="999"/>
         <set field="serviceCtx.note" value="nota teste 999"/>
         <set field="serviceCtx.loginName" value="admin"/>
         
@@ -42,17 +42,59 @@ under the License.
         	<if-compare-field field="serviceResult.noteId" operator="equals" to-field="serviceCtx.noteId"/>
         </assert>
 
-        <!-- Confirm the database changes>
+        <!-- Confirm the database changes-->
         <entity-one value-field="note" entity-name="Note">
             <field-map field-name="noteId" from-field="serviceCtx.noteId"/>
             <field-map field-name="note" from-field="serviceCtx.note"/>
             <field-map field-name="loginName" from-field="serviceCtx.loginName"/>
         </entity-one>
         <assert><not><if-empty field="note"/></not></assert>
-        <check-errors/-->
+        <check-errors/>
     </simple-method>
     
    
 
+  <simple-method method-name="testCreateNoteFail" 	
+        short-description="Test case for unsuccessfully creating a Note record by attempting to use a noteId  that has already been used." login-required="false">	
+	
+        <!-- Use to confirm nothing has changed at the end of the test -->	
+        <set field="startTime" value="${date:nowTimestamp()}" type="Timestamp"/>	
+	
+        <entity-one entity-name="UserLogin" value-field="serviceCtx.userLogin">	
+            <field-map field-name="userLoginId" value="admin"/>	
+        </entity-one>	
+	
+        <set field="serviceCtx.noteId" value="999"/>	
+        <set field="serviceCtx.note" value="note 999"/>	
+        <set field="serviceCtx.loginName" value="admin"/>	
+	
+        <!-- Execute the service, note break-on-error is false so that the test itself doesn't 	
+             fail and we also need a separate transaction so our lookup below doesn't fail due to the rollback -->	
+        <call-service service-name="createNote" in-map-name="serviceCtx" 	
+            break-on-error="false" require-new-transaction="true">	
+            <results-to-map map-name="serviceResult"/>	
+        </call-service>	
+        <!-- Clear these because break-on-error="false" doesn't seem to work as it should at the moment -->	
+        <clear-field field="responseMessage"/>	
+        <clear-field field="errorMessageList"/>	
+	
+        <!-- Confirm the service output parameters, in this case the presence of an error response -->	
+        <assert><if-compare field="serviceResult.responseMessage" operator="equals" value="error"/></assert>	
+	
+        <!-- Confirm the database changes, in this case nothing should have changed -->	
+        <entity-condition list="note" entity-name="Note">	
+            <condition-list>	
+                <condition-expr field-name="lastUpdatedStamp" operator="greater-equals" from-field="startTime"/>	
+                <condition-expr field-name="noteId" from-field="serviceCtx.noteId"/>	
+                <condition-expr field-name="note" from-field="serviceCtx.note"/>	
+                <condition-expr field-name="loginName" from-field="serviceCtx.loginName"/>	
+            </condition-list>	
+        </entity-condition>	
+        <!--  Should be empty -->	
+        <assert><if-empty field="note"/></assert>	
+        <check-errors/>	
+    </simple-method>	
+ 
+ 
  
 </simple-methods>

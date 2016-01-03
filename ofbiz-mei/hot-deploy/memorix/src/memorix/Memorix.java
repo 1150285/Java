@@ -23,8 +23,9 @@ public static Map<String, Object> createNote(DispatchContext dctx, Map<String, O
 
 // Lets create note
 GenericDelegator delegator = (GenericDelegator) DelegatorFactory.getDelegator("default");
+//String noteId = (String)context.get("noteId");
+//String noteId = "777";
 String noteId = delegator.getNextSeqId("Note");
-
 String loginName = (String)context.get("loginName");
 String notes = (String)context.get("note");
 //String noteDateTime = (String)context.get("noteDateTime");

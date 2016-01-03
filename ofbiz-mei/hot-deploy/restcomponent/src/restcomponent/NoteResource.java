@@ -160,6 +160,8 @@ public class NoteResource {
 		LocalDispatcher dispatcher = org.ofbiz.service.ServiceDispatcher.getLocalDispatcher("default", delegator);
 
 		Map<String, String> paramMap = UtilMisc.toMap(
+				//"noteId", jsonObj.getString("noteId"), 
+				//"noteId", "777",
 				"loginName", jsonObj.getString("loginName"), 
 				"note", jsonObj.getString("note"));
 				//"noteDateTime",jsonObj.getString("noteDateTime"))
@@ -185,16 +187,6 @@ public class NoteResource {
 		}
 	}
 
-	// ../url_resource/{id}
-	// handling individual itens in the collection
-	//
-	// item id must be present in the request object
-	//
-	// GET return specific item or 404
-	// POST update existing entry or 404
-	// PUT overwrite existing or create new given the id.
-	// DELETE deletes the item
-	//
 
 	/**
 	 * This method returns a note given its id.
@@ -301,6 +293,7 @@ public class NoteResource {
 
 		Map<String, String> paramMap = UtilMisc.toMap(
 				"noteId", noteId,
+				//"noteId", jsonObj.getString("noteId"),
 				"loginName", jsonObj.getString("loginName"), 
 				"note", jsonObj.getString("note"));
 				//"noteDateTime",jsonObj.getString("noteDateTime"));

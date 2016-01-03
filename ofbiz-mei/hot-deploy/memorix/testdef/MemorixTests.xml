@@ -15,7 +15,7 @@ location="component://memorix/script/MemorixTest.xml"/>
 </test-case>
 
 <test-case case-name="updateNoteTest">
-        <junit-test-suite class-name="org.ofbiz.memorix.test.UpdateNoteTest"/>
+        <junit-test-suite class-name="UpdateNoteTest"/>
 </test-case>
 
 </test-suite>
