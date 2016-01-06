@@ -109,7 +109,7 @@ public class Util {
 	 * ********************************************************************
 	 */
 	
-	Synchronized static String getNote(String noteId) {
+	synchronized static String getNote(String noteId) {
     	GenericValue note = null;
     	JsonObject object=null;
 
