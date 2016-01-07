@@ -1,3 +1,4 @@
-cd C:\Users\Administrator\Documents\mei-rep-2015-g047\ofbiz-mei
+
+cd C:\Jenkins\jobs\tp-demo\workspace\ofbiz-mei
 xcopy *.* c:\deploy2\. /s /y
 cd c:\deploy2\
