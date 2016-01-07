@@ -79,7 +79,49 @@ public class NoteResource {
 	 * @return ****************************************************************
 	 */
 	
-	
+	@GET
+	@Produces("application/json")
+	public Response getAllNotes() {
+		String username = null;
+		String password = null;
+
+		try {
+			username = httpRequest.getHeader("login.username");
+			password = httpRequest.getHeader("login.password");
+		} catch (NullPointerException e) {
+			return Response.serverError().entity("Problem reading http header(s): login.username or login.password")
+					.build();
+		}
+
+		if (username == null || password == null) {
+			return Response.serverError().entity("Problem reading http header(s): login.username or login.password")
+					.build();
+		}
+
+		GenericDelegator delegator = (GenericDelegator) DelegatorFactory.getDelegator("default");
+		List<GenericValue> notes = null;
+
+		try {
+			notes = delegator.findAll("Note", false);
+		} catch (GenericEntityException e) {
+			return Response.serverError().entity(e.toString()).build();
+		}
+
+		if (notes != null) {
+
+			String response = Util.convertListGenericValueToJSON(notes);
+
+			if (response == null) {
+				return Response.serverError().entity("Erro na conversao do JSON!").build();
+			}
+
+			return Response.ok(response).type("application/json").build();
+		}
+
+		// shouldn't ever get here ... should we?
+		throw new RuntimeException("Invalid ");
+	}
+
 	
 	
 	/**
