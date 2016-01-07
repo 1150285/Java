@@ -79,7 +79,7 @@ public class NoteResource {
 	 * @return
 	 */
 	
-	/** RETIRAR PARA DEMONSTRAÇÃO TP
+	/** RETIRAR PARA DEMO TP
 	@GET
 	@Produces("application/json")
 	public Response getAllNotes() {
@@ -122,7 +122,7 @@ public class NoteResource {
 		// shouldn't ever get here ... should we?
 		throw new RuntimeException("Invalid ");
 	}
-RETIRAR PARA DEMONSTRAÇÃO TP */
+RETIRAR PARA DEMO TP */
 	
 	
 	
