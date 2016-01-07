@@ -1,4 +1,3 @@
-
 <test-suite suite-name="MemorixTests"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/test-suite.xsd">
@@ -16,6 +15,6 @@ location="component://memorix/script/MemorixTest.xml"/>
 
 <test-case case-name="updateNoteTest">
         <junit-test-suite class-name="UpdateNoteTest"/>
-</test-case>
+</test-case-->
 
 </test-suite>
